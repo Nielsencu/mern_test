@@ -36,6 +36,17 @@ const drawerWidth = 240;
 const tempBatchSize=32;
 const tempTrainingCycles=32;
 
+const escapeParentOnClick = (e) => {
+  if (!e) var e = window.event; 
+  e.cancelBubble = true;
+  if (e.stopPropagation) e.stopPropagation();
+}
+
+const deleteModel = (e) => {
+  escapeParentOnClick(e);
+  console.log("Hey");
+}
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -169,37 +180,42 @@ export default function App() {
                   >
                   <Box className="model-box" sx={{display:'flex', alignItems:'center'}}>
                     <Typography sx={{marginRight:'1rem'}}>{text}</Typography>
-                    <Button className="delete-button">Delete model</Button>
-                    <Button className="update-button">Update name</Button>
+                    <Button className="delete-button" onClick={deleteModel}>Delete model</Button>
+                    <Button className="update-button" onClick={escapeParentOnClick}>Update name</Button>
                   </Box>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Box>
-                        <List>
-                            <ListItem className="parameters-box" key={"parameters"}>
-                              <ListItemIcon sx={{color:'#0a2540'}}>
-                                <CircleIcon/>
-                              </ListItemIcon>
-                              <ListItemText primary="parameters"/>
-                            </ListItem>
-                        </List>
                       <Box className="parameters-box">
                         <Typography>parameters : </Typography>
-                          <List>
-                            {['batch-size', 'training-cycles'].map((text, index) => (
-                              <ListItem key={text}>
-                                <ListItemIcon sx={{color:'#0a2540'}}>
-                                  <CircleIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                              </ListItem>
-                            ))}
-                          </List>
+                        <List>
+                          {['batch-size', 'training-cycles'].map((text, index) => (
+                            <ListItem key={text}>
+                              <ListItemIcon>
+                                <CircleIcon sx={{fontSize:'small'}}/>
+                              </ListItemIcon>
+                              <ListItemText primary={text} />
+                            </ListItem>
+                          ))}
+                        </List>
                       </Box>
                       <Box className="synthdata-box">
-                        <Typography></Typography>
+                      <Box className="model-box" sx={{display:'flex', alignItems:'center'}}>
+                        <Typography sx={{marginRight:'1rem'}}>synthetic-data</Typography>
+                        <Button className="create-button">Create synthetic data</Button>
+                      </Box>
                         <Box>
-                          <Typography>synthetic-data-1</Typography>
+                          <List>
+                          {['synthetic-data-1.csv', 'synthetic-data-2.csv'].map((text, index) => (
+                            <ListItem key={text} sx={{display:'flex', justifyContent:'flex-start'}}>
+                              <ListItemIcon>
+                                <CircleIcon sx={{fontSize:'small'}}/>
+                              </ListItemIcon>
+                              <Typography sx={{marginRight:'1rem'}}>{text}</Typography>
+                              <Button className="create-button" >Delete synthetic data</Button>
+                            </ListItem>
+                          ))}
+                          </List>
                         </Box>
                       </Box>
                     </Box>
